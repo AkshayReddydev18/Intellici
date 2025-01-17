@@ -1,0 +1,39 @@
+body {
+  font-size: large;
+  font-family: Poppins,sans-serif;
+  /* font-style: papyrus; */
+  top:200px
+}
+.container,
+.container_fluid {
+  padding: 0% 5%;
+}
+.underlined {
+      text-decoration: underline;
+      color: #ff2a00;
+    }
+
+[alt="icons8-scroll-up.gif"] {
+  border-radius: 50px;
+  height: 50px;
+  width: 50px;
+  float: right;
+  margin-right: 0px;
+}
+.scrollTopbtn {
+  border-radius: 40px;
+  height: 20px;
+  width: 20px;
+  float: right;
+}
+a {
+  text-decoration: none;
+  padding: 10px;
+  color: black;
+}
+
+@media screen and (max-width:426px){
+  body{
+    font-size: medium;
+  }
+}
