@@ -9,8 +9,8 @@ body {
   padding: 0% 5%;
 }
 .underlined {
-  text-decoration: underline;
-  color: #ff2a00;
+  text-decoration:#ff2a00 underline;
+  /* color: #ff2a00; */
 }
 
 [alt="icons8-scroll-up.gif"] {

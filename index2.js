@@ -1,56 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const sections = document.querySelectorAll(".content");
-  const navLinks = document.querySelectorAll(".href");
+  const links = document.querySelectorAll("#container a");
+  const contents = document.querySelectorAll(".container_fluid .content");
+  const container = document.querySelector("#container");
 
-  // Intersection Observer to track visible sections
-  const observerOptions = {
-    root: null, // viewport
-    threshold: 0.6, // Trigger when 60% of the section is visible
+  // Function to remove the underline from all links
+  const removeUnderline = () => {
+    links.forEach(link => {
+      link.style.textDecoration = "none";
+    });
   };
 
-  const observerCallback = (entries) => {
-    entries.forEach((entry) => {
-      const link = document.querySelector(`.href[href="#${entry.target.id}"]`);
+  // Function to add underline to the active link and scroll the container
+  const addUnderline = (id) => {
+    const activeLink = document.querySelector(`#container a[href="${id}"]`);
+    if (activeLink) {
+      activeLink.style.textDecoration = "#ff2a00 underline";
+      // Scroll the container to make the active link visible
+      const linkOffset = activeLink.offsetLeft;
+      const linkWidth = activeLink.offsetWidth;
+      const containerWidth = container.offsetWidth;
+      const scrollPosition = linkOffset - (containerWidth / 2) + (linkWidth / 2);
+      container.scrollTo({ left: scrollPosition, behavior: "smooth" });
+    }
+  };
 
-      if (entry.isIntersecting) {
-        // Highlight the active link
-        navLinks.forEach((link) => link.classList.remove("active"));
-        link.classList.add("active");
+  // Check which section is in view
+  const highlightSection = () => {
+    contents.forEach(content => {
+      const rect = content.getBoundingClientRect();
+      const id = `#${content.id}`;
+
+      // Check if the section is visible in the viewport
+      if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+        removeUnderline();
+        addUnderline(id);
       }
     });
   };
 
-  const observer = new IntersectionObserver(observerCallback, observerOptions);
-  sections.forEach((section) => observer.observe(section));
-});
+  // Attach scroll event listener
+  window.addEventListener("scroll", highlightSection);
 
-
-
-// const scrollTopBtn = document.getElementById("scrollTopBtn");
-
-// // Show the button when the user scrolls down
-// window.onscroll = function () {
-//   if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-//     scrollTopBtn.style.display = "block";
-//   } else {
-//     scrollTopBtn.style.display = "none";
-//   }
-// };
-
-// // Scroll to the top when the button is clicked
-// scrollTopBtn.onclick = function () {
-//   window.scrollTo({
-//     top: 0,
-//     behavior: "smooth"
-//   });
-// };
-
-document.addEventListener("DOMContentLoaded", () => {
-  const elements = document.querySelectorAll(".href");
-
-  elements.forEach((element) => {
-    element.addEventListener("click", () => {
-      element.classList.toggle("underlined");
-    });
-  });
+  // Initial check on page load
+  highlightSection();
 });
